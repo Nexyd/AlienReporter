@@ -1,21 +1,12 @@
 package com.mobileinformationsystems.alienreporter.connector;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.Scanner;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class HTTPConnector extends AsyncTask<String, Void, String> {
     private HTTPConnectorResponse delegate;

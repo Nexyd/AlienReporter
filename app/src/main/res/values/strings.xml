@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Alien Reporter</string>
+    <string name="formId" formatted="true">Form Id:</string>
+    <string name="lastChangedDate">Last changed Date:</string>
+    <string name="lastChangedBy">Last changed by:</string>
+    <string name="url">http://www.mocky.io/v2/59f7760a2f0000ab1d55864e</string>
 </resources>

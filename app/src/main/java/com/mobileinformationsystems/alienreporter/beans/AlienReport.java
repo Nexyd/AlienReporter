@@ -1,9 +1,11 @@
 package com.mobileinformationsystems.alienreporter.beans;
 
+import java.util.List;
+
 public class AlienReport {
     private String userId;
     private String formId;
-    private String[] form;
+    private List<AlienReportForm> form;
     private String lastChangedDate;
     private String lastChangedBy;
 
@@ -23,11 +25,11 @@ public class AlienReport {
         this.formId = formId;
     }
 
-    public String[] getForm() {
+    public List<AlienReportForm> getForm() {
         return form;
     }
 
-    public void setForm(String[] form) {
+    public void setForm(List<AlienReportForm> form) {
         this.form = form;
     }
 
