@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import com.mobileinformationsystems.alienreporter.beans.AlienReport;
 import com.mobileinformationsystems.alienreporter.beans.AlienReportForm;
 import com.mobileinformationsystems.alienreporter.connector.HTTPConnector;
 import com.mobileinformationsystems.alienreporter.connector.HTTPConnectorResponse;
+import com.mobileinformationsystems.alienreporter.helper.SimpleItemTouchHelperCallback;
 
 public class MainActivity
     extends AppCompatActivity
@@ -41,12 +43,17 @@ public class MainActivity
         AlienReport report = gson.fromJson(
             json, AlienReport.class);
 
-        String[] dataset = { "1", "2", "3" };
         formId.setText(report.getFormId());
         lastChangedDate.setText(report.getLastChangedDate());
         lastChangedBy.setText(report.getLastChangedBy());
 
-        forms.setLayoutManager(new LinearLayoutManager(this));
-        forms.setAdapter(new ReportFormDataAdapter(dataset));
+        ReportFormDataAdapter adapter = new ReportFormDataAdapter(report.getForm());
+        forms.setLayoutManager(new LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL, false));
+
+        forms.setAdapter(adapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(forms);
     }
 }
