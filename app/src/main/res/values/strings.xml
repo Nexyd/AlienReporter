@@ -4,5 +4,8 @@
     <string name="lastChangedDate">Last changed Date:</string>
     <string name="lastChangedBy">Last changed by:</string>
     <string name="formList">Forms:</string>
+    <string name="reportFormId">Id:</string>
+    <string name="reportFormCaption">Caption:</string>
+    <string name="reportFormType">Type:</string>
     <string name="url">http://www.mocky.io/v2/59f7760a2f0000ab1d55864e</string>
 </resources>

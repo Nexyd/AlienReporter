@@ -1,16 +1,21 @@
 package com.mobileinformationsystems.alienreporter.helper;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.mobileinformationsystems.alienreporter.callbacks.ItemTouchHelperAdapter;
-import com.mobileinformationsystems.alienreporter.callbacks.ItemTouchHelperViewHolder;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter adapter;
+    private Context context;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public SimpleItemTouchHelperCallback(Context context, ItemTouchHelperAdapter adapter) {
+        this.context = context;
         this.adapter = adapter;
     }
 
@@ -37,18 +42,14 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-            ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
-            itemViewHolder.onItemSelected();
+        Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+
+        try {
+            vibrator.vibrate(100);
+        } catch (NullPointerException exception) {
+            exception.getMessage();
         }
 
         super.onSelectedChanged(viewHolder, actionState);
-    }
-
-    @Override
-    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        super.clearView(recyclerView, viewHolder);
-        ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
-        itemViewHolder.onItemClear();
     }
 }
