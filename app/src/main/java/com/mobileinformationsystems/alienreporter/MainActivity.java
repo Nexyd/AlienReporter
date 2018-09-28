@@ -18,6 +18,9 @@ import com.mobileinformationsystems.alienreporter.fragments.AlienReporterFragmen
 import com.mobileinformationsystems.alienreporter.helper.SimpleItemTouchHelperCallback;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity
     extends AppCompatActivity
@@ -45,13 +48,10 @@ public class MainActivity
         AlienReport report = gson.fromJson(
             json, AlienReport.class);
 
-//        String date = DateFormat.getDateTimeInstance(
-//            DateFormat.SHORT, DateFormat.MEDIUM)
-//            .format(report.getLastChangedDate());
-
+        String date = formatDate(report.getLastChangedDate());
         formId.setText(report.getFormId());
-        lastChangedDate.setText(report.getLastChangedDate());
         lastChangedBy.setText(report.getLastChangedBy());
+        lastChangedDate.setText(date);
 
         AlienReporterFragment fragment =
             AlienReporterFragment.newInstance(report.getForm());
@@ -61,5 +61,23 @@ public class MainActivity
 
         fragmentTransaction.replace(R.id.workarea_placeholder, fragment);
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public String formatDate(String baseDate) {
+        String formattingPattern = "yyyy-MM-dd'T'hh:mm:ss";
+        SimpleDateFormat format = new SimpleDateFormat(formattingPattern);
+        String date = "";
+
+        try {
+            Date newDate = format.parse(baseDate);
+            date = DateFormat.getDateTimeInstance(
+                DateFormat.SHORT, DateFormat.MEDIUM)
+                .format(newDate);
+
+        } catch (ParseException ex) {
+            ex.getMessage();
+        }
+
+        return date;
     }
 }
