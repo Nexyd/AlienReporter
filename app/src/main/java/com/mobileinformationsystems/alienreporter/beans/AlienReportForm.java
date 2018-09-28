@@ -1,6 +1,8 @@
 package com.mobileinformationsystems.alienreporter.beans;
 
-public class AlienReportForm {
+import java.io.Serializable;
+
+public class AlienReportForm implements Serializable {
     private String id;
     private String caption;
     private String type;

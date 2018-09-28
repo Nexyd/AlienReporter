@@ -2,17 +2,21 @@ package com.mobileinformationsystems.alienreporter.adapters;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.mobileinformationsystems.alienreporter.R;
 import com.mobileinformationsystems.alienreporter.beans.AlienReportForm;
 import com.mobileinformationsystems.alienreporter.callbacks.ItemTouchHelperAdapter;
 import com.mobileinformationsystems.alienreporter.dialog.FormDialog;
+import com.mobileinformationsystems.alienreporter.fragments.AlienReporterFragment;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ReportFormDataAdapter
@@ -20,8 +24,10 @@ public class ReportFormDataAdapter
     implements ItemTouchHelperAdapter
 {
     private List<AlienReportForm> reportFormList;
+    private Fragment fragment;
 
-    public ReportFormDataAdapter(List<AlienReportForm> dataset) {
+    public ReportFormDataAdapter(Fragment fragment, List<AlienReportForm> dataset) {
+        this.fragment = fragment;
         this.reportFormList = dataset;
     }
 
@@ -58,27 +64,25 @@ public class ReportFormDataAdapter
         return reportFormList.size();
     }
 
-    static class ViewHolder
-        extends RecyclerView.ViewHolder
+    class ViewHolder extends RecyclerView.ViewHolder
     {
         Button view;
         ViewHolder(View view) {
             super(view);
-            this.view = view.findViewById(R.id.subFormId);
 
+            this.view = view.findViewById(R.id.subFormId);
             this.view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     FormDialog dialog = new FormDialog();
-                    Bundle bundle = new Bundle();
-//                    bundle.putParcelable(StaticValues.USER, loggedUser);
-//
-//                    dialog.setArguments(bundle);
-//                    dialog.setTargetFragment(UrgentRequestFragment.this,
-//                        StaticValues.REQUEST_URGENT_ADD_OTHER_USERS);
-//
-//                    dialog.show(getChildFragmentManager(),
-//                        StaticValues.DIALOG_OTHER_USERS);
+                    Bundle args = new Bundle();
+                    args.putSerializable("reports", (Serializable) reportFormList);
+                    args.putCharSequence("searchId", ((TextView)view).getText());
+
+                    dialog.setArguments(args);
+                    dialog.setTargetFragment(fragment, 1);
+                    dialog.show(fragment.getFragmentManager(),
+                        "report_form_dialog");
                 }
             });
         }
